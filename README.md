@@ -6,11 +6,15 @@ Experimenting with facial-detection and facial-recognition APIs...simply out of 
 - React/Redux
 
 # Packages
-- npm install eslint eslint-plugin-react --save-dev 
+- npm install eslint install-peerdeps eslint-plugin-react --save-dev 
     - ./node_modules/.bin/eslint --init
 
 ## Front End
 - npx i create-react-app
 - react-router-dom
+- npm install tachyons (this is a CSS interface library...more info here: [tachyons.io](https://tachyons.io/) )
 
+## APIs
+- https://www.clarifai.com/
+- https://aws.amazon.com/rekognition/ 
 
