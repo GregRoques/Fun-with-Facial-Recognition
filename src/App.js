@@ -16,21 +16,27 @@ class App extends Component {
     box: {},
   };
 
-  calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+  calculateFaceLocations = (data) => {
+    const clarifaiFaces = data.outputs[0].data.regions;
+
+    //get image dimensions
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - clarifaiFace.right_col * width,
-      bottomRow: height - clarifaiFace.bottom_row * height,
-    };
-  };
+    let box = {}; // holding our faces
 
-  displayFaceBox = (box) => {
+    clarifaiFaces.map((face, i) => {
+      //map through faces
+      const faceInfo = face.region_info.bounding_box;
+      box[i] = {
+        leftCol: faceInfo.left_col * width,
+        topRow: faceInfo.top_row * height,
+        rightCol: width - faceInfo.right_col * width,
+        bottomRow: height - faceInfo.bottom_row * height,
+      };
+    });
+    //console.log(box);
     this.setState({
       box,
     });
@@ -52,15 +58,16 @@ class App extends Component {
       .then((res) => {
         //console.log(res);
         //console.log(res.outputs[0].data.regions[0].region_info.bounding_box);
-        this.displayFaceBox(this.calculateFaceLocation(res));
+        this.calculateFaceLocations(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(`ERROR: ${err}`);
       });
   };
 
   render() {
     const { box, imageUrl } = this.state;
+    //console.log(box); // working!!!
     return (
       <div className="App">
         <ImageSearchForm onInputChange={this.onInputChange} onSubmit={this.onSubmit} />
