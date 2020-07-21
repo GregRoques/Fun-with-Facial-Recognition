@@ -62,6 +62,6 @@ The calculateFaceLocation function recieves the response we get from the API whe
 
 You can see the detection at work below.
 
-![Squad at Jazz Fest](/readMe/1.jpg)
+![Squad at Jazz Fest](/readMe/1.JPG)
 
-![Squad on hike in Colorado](/readMe/2.jpg)
+![Squad on hike in Colorado](/readMe/2.JPG)
