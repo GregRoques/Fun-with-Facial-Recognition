@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
+import axios from 'axios';
 import ImageSearchForm from './Components/ImageSearchForm/ImageSearchForm';
 import FaceDetect from './Components/FaceDetect/FaceDetect';
 import { cKey } from './keys/clarifaiKey';
@@ -18,6 +19,7 @@ class App extends Component {
 
   calculateFaceLocations = (data) => {
     const clarifaiFaces = data.outputs[0].data.regions;
+    const modelId = data.outputs[0].model.id;
 
     //get image dimensions
     const image = document.getElementById('inputimage');
@@ -57,7 +59,10 @@ class App extends Component {
       .predict(Clarifai.FACE_DETECT_MODEL, input)
       .then((res) => {
         //console.log(res);
-        //console.log(res.outputs[0].data.regions[0].region_info.bounding_box);
+        // app.models.predict(Clarifai.DEMOGRAPHICS_MODEL, input).then((res2) => { // gets demographic info on users
+        //   console.log(res2);
+        // });
+
         this.calculateFaceLocations(res);
       })
       .catch((err) => {
