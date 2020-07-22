@@ -27,6 +27,7 @@ I am using the below tutorials as a guide to get started:
 ## APIs
 
 - https://www.clarifai.com/
+- https://aws.amazon.com/rekognition/ (Maybe?)
 
 # Logic
 
