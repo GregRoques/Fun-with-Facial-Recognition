@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
-import axios from 'axios';
 import ImageSearchForm from './Components/ImageSearchForm/ImageSearchForm';
 import FaceDetect from './Components/FaceDetect/FaceDetect';
-import { cKey } from './keys/clarifaiKey';
+import { cKey, workflowId } from './keys/clarifaiKey';
 import './App.css';
 
 const app = new Clarifai.App({
@@ -18,8 +17,7 @@ class App extends Component {
   };
 
   calculateFaceLocations = (data) => {
-    const clarifaiFaces = data.outputs[0].data.regions;
-    const modelId = data.outputs[0].model.id;
+    const clarifaiFaces = data.results[0].outputs[0].data.regions;
 
     //get image dimensions
     const image = document.getElementById('inputimage');
@@ -32,6 +30,7 @@ class App extends Component {
       //map through faces
       const faceInfo = face.region_info.bounding_box;
       box[i] = {
+        stats: face.data.concepts ? face.data.concepts : 'N/A',
         leftCol: faceInfo.left_col * width,
         topRow: faceInfo.top_row * height,
         rightCol: width - faceInfo.right_col * width,
@@ -55,14 +54,10 @@ class App extends Component {
     this.setState({
       imageUrl: input,
     });
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+    app.workflow
+      .predict(workflowId, input)
       .then((res) => {
         //console.log(res);
-        // app.models.predict(Clarifai.DEMOGRAPHICS_MODEL, input).then((res2) => { // gets demographic info on users
-        //   console.log(res2);
-        // });
-
         this.calculateFaceLocations(res);
       })
       .catch((err) => {
