@@ -21,7 +21,7 @@ class FaceDetect extends Component {
     //console.log(array);
     return (
       <div>
-        <statsModal isOpen={this.state.isOpen} stats={this.state.stats} />
+        <statsModal isOpen={this.state.isOpen} stats={this.state.stats} close={this.isModal} />
         <div className="center ma">
           <div className="absolute mt2">
             <img id="inputimage" alt="" src={imageUrl} width="500px" heigh="auto" />

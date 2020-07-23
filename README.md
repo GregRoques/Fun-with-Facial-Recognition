@@ -23,11 +23,12 @@ I am using the below tutorials as a guide to get started:
 - npx i create-react-app
 - npm install tachyons (this is a CSS interface library...more info here: [tachyons.io](https://tachyons.io/) )
 - npm i clarifai
+- npm i sweetalerts2
 
 ## APIs
 
 - https://www.clarifai.com/
-- https://aws.amazon.com/rekognition/ (Maybe?)
+- https://aws.amazon.com/rekognition/ (possibly)
 
 # Logic
 
@@ -35,9 +36,9 @@ I am using the below tutorials as a guide to get started:
 
 ```
 clarifaiFaces.map((face, i) => {
-    //map through faces
     const faceInfo = face.region_info.bounding_box;
     box[i] = {
+      stats: face.data.concepts ? formatStats(Object.values(face.data.concepts)) : 'N/A',
       leftCol: faceInfo.left_col * width,
       topRow: faceInfo.top_row * height,
       rightCol: width - faceInfo.right_col * width,
