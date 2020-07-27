@@ -1,7 +1,7 @@
 import React from 'react';
 import './statsModal.css';
 
-const statsModal = ({ isOpen, stats }) => {
+const StatsModal = ({ isOpen, stats }) => {
   return isOpen ? (
     <div className="modal">
       <div className="modalPosition">
@@ -14,4 +14,4 @@ const statsModal = ({ isOpen, stats }) => {
   ) : null;
 };
 
-export default statsModal;
+export default StatsModal;

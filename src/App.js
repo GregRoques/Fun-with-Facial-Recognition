@@ -14,24 +14,23 @@ class App extends Component {
   state = {
     input: '',
     imageUrl: '',
-    box: {},
+    detectBox: {},
+    demoBox: {},
   };
 
-  calculateFaceLocations = (data) => {
-    const clarifaiFaces = data.results[0].outputs[0].data.regions;
-
+  calculateFaceLocations = (clarifaiFaces) => {
     //get image dimensions
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
     let box = {}; // holding our faces
-
+    console.log(clarifaiFaces);
     clarifaiFaces.map((face, i) => {
       //map through faces
       const faceInfo = face.region_info.bounding_box;
       box[i] = {
-        stats: face.data.concepts ? formatStats(Object.values(face.data.concepts)) : 'N/A',
+        vector: face.data.embeddings ? face.data.embeddings.vector : '',
         leftCol: faceInfo.left_col * width,
         topRow: faceInfo.top_row * height,
         rightCol: width - faceInfo.right_col * width,
@@ -39,22 +38,36 @@ class App extends Component {
       };
     });
     //console.log(box);
-    this.setState({
-      box,
-    });
+    return box;
   };
 
   formatStats = (results) => {
-    // formats individual demographic estimates returned (age, gender, race)
     console.log(results);
     let box = {};
-    results.map((result) => {
-      if (result.type !== 'multicultural_appearance') {
-        box[results.type] = result.name;
-      } else {
-        box[result.type].push((result.name = result.value));
-      }
+    results.map((result, i) => {
+      const clarifaiFaces = [result];
+      box[i] = {
+        bounding_box: this.calculateFaceLocations(clarifaiFaces),
+      };
+      const concepts = result.data.concepts;
+      //console.log(concepts);
+      concepts.map((concept) => {
+        if (box[i][concept.vocab_id]) {
+          if (concept.value > box[i][concept.vocab_id].value) {
+            box[i][concept.vocab_id] = {
+              name: concept.name,
+              value: concept.value,
+            };
+          }
+        } else {
+          box[i][concept.vocab_id] = {
+            name: concept.name,
+            value: concept.value,
+          };
+        }
+      });
     });
+    console.log(box);
     return box;
   };
 
@@ -70,12 +83,19 @@ class App extends Component {
     const { input } = this.state;
     this.setState({
       imageUrl: input,
+      detectBox: {},
     });
     app.workflow
       .predict(workflowId, input)
       .then((res) => {
-        //console.log(res);
-        this.calculateFaceLocations(res); // calculates and sorts face locations and inidividaul demographics
+        console.log(res);
+        const clarifaiFaces = res.results[0].outputs[0].data.regions; // face detection info
+        const clarifaiDemos = res.results[0].outputs[1].data.regions; // age, gender, race demographics
+
+        this.setState({
+          detectBox: this.calculateFaceLocations(clarifaiFaces), // calculates and sorts face locations and inidividaul demographics
+          demoBox: this.formatStats(clarifaiDemos), // formats individual demographic estimates returned (age, gender, race)
+        });
       })
       .catch((err) => {
         console.log(`ERROR: ${err}`);
@@ -85,22 +105,22 @@ class App extends Component {
           title: 'Oops...',
           text: 'We could not analyze this url or image. Please submit a new url.',
         });
-        // clears out state so a new url can be sumitted
+        //clears out state so a new url can be sumitted
         this.setState({
           input: '',
           imageUrl: '',
-          box: {},
+          detectBox: {},
         });
       });
   };
 
   render() {
-    const { box, imageUrl } = this.state;
+    const { detectBox, imageUrl } = this.state;
     //console.log(box); // working!!!
     return (
       <div className="App">
         <ImageSearchForm onInputChange={this.onInputChange} onSubmit={this.onSubmit} />
-        <FaceDetect box={box} imageUrl={imageUrl} />
+        <FaceDetect box={detectBox} imageUrl={imageUrl} />
       </div>
     );
   }

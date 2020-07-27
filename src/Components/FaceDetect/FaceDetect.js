@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './FaceDetect.css';
-// import statsModal from './statsModal'
+// import StatsModal from './StatsModal'
 
 class FaceDetect extends Component {
   state = {
@@ -21,7 +21,7 @@ class FaceDetect extends Component {
     //console.log(array);
     return (
       <div>
-        <statsModal isOpen={this.state.isOpen} stats={this.state.stats} close={this.isModal} />
+        {/* <StatsModal isOpen={this.state.isOpen} stats={this.state.stats} close={this.isModal} /> */}
         <div className="center ma">
           <div className="absolute mt2">
             <img id="inputimage" alt="" src={imageUrl} width="500px" heigh="auto" />
