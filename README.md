@@ -32,12 +32,12 @@ See .prettierrc and .eslintrc.json files for more specifics
 - Test 1: https://www.clarifai.com/
 - Test 2: face-api.js: https://github.com/justadudewhohacks/face-api.js
 
-## Additional Files/Folders Needed
+## Omitted Files/Folders Needed
 
-In my src folder, I use my .gitignore file to hide a folder called "keys", as it has some personal information in there. If you decide to test out this exercise for yourself, you will want to add a folder with this name to your src folder, and include the following files:
+In the "src" folder, I use my ".gitignore" file to hide a folder called "keys", as it contains some personal information. If you decide to test out this exercise for yourself, you will want to add a folder with this name to your "src" folder, and include the following files:
 
-- clarifaiKey.js: exports your Clarifia API key (const cKey) and custom Clarifai workflow ID (const workflowId).
-- faceArray.js: contains the 512-count array coordinates for a specific face ( or faces) you will try to detect when you submit an image url.
+- **clarifaiKey.js:** exports your Clarifia API key (**const cKey**) and custom Clarifai workflow ID (**const workflowId**).
+- **faceArray.js:** exports a variable containing the 512-count array coordinates for a specific face ( or faces) you will try to detect when you submit an image url.
 
 # Logic
 
