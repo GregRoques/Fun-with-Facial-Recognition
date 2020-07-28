@@ -9,6 +9,8 @@
     "axios": "^0.19.2",
     "clarifai": "^2.9.1",
     "install-peerdeps": "^2.0.3",
+    "jsnumpy": "^1.1.10",
+    "numjs": "^0.16.0",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

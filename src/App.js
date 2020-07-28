@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
 import Swal from 'sweetalert2';
+import np from 'jsnumpy';
 import ImageSearchForm from './Components/ImageSearchForm/ImageSearchForm';
 import FaceDetect from './Components/FaceDetect/FaceDetect';
-import { cKey, workflowId } from './keys/clarifaiKey';
+import { cKey, workflowId } from './keys/clarifaiKey'; // Clarifai key, name of clarifai workflow
+import { gregFaceArray } from './keys/faceArray'; // 512 count array for representing points from my face..for face detection match
 import './App.css';
 
 const app = new Clarifai.App({
@@ -30,15 +32,25 @@ class App extends Component {
       //map through faces
       const faceInfo = face.region_info.bounding_box;
       box[i] = {
-        vector: face.data.embeddings ? face.data.embeddings.vector : '',
+        isGreg: face.data.embeddings ? this.faceDetect(face.data.embeddings[0].vector) : false,
         leftCol: faceInfo.left_col * width,
         topRow: faceInfo.top_row * height,
         rightCol: width - faceInfo.right_col * width,
         bottomRow: height - faceInfo.bottom_row * height,
       };
     });
-    //console.log(box);
+    console.log(box);
     return box;
+  };
+
+  faceDetect = (B) => {
+    //console.log(B);
+    let A = gregFaceArray;
+    const number_of_equal_elements = np.sum(A == B);
+    const total_elements = b.length;
+    const percentage = number_of_equal_elements / total_elements;
+    const isTrue = percentage > 0.95 ? true : false;
+    return isTrue;
   };
 
   formatStats = (results) => {
@@ -67,7 +79,7 @@ class App extends Component {
         }
       });
     });
-    console.log(box);
+    // console.log(box);
     return box;
   };
 
