@@ -27,8 +27,8 @@ I am using the below tutorials as a guide to get started:
 
 ## APIs
 
-- https://www.clarifai.com/
-- https://aws.amazon.com/rekognition/ (possibly)
+- Test 1: https://www.clarifai.com/
+- Test 2: face-api.js: https://github.com/justadudewhohacks/face-api.js
 
 # Logic
 
