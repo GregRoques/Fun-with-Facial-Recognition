@@ -30,7 +30,7 @@ See .prettierrc and .eslintrc.json files for more specifics
 ## APIs
 
 - Test 1: https://www.clarifai.com/
-- Test 2: face-api.js: https://github.com/justadudewhohacks/face-api.js
+- Test 2: **face-api.js:** https://github.com/justadudewhohacks/face-api.js
 
 ## Omitted Files/Folders Needed
 
