@@ -6,6 +6,7 @@ import FaceDetect from './Components/FaceDetect/FaceDetect';
 import { cKey, workflowId } from './keys/clarifaiKey'; // Clarifai key, name of clarifai workflow
 import { gregFaceArray } from './keys/faceArray'; // 512 count array for representing points from my face..for face detection match
 import './App.css';
+import { getNodeText } from '@testing-library/react';
 
 const app = new Clarifai.App({
   apiKey: cKey,
@@ -99,6 +100,7 @@ class App extends Component {
     this.setState({
       imageUrl: input,
       detectBox: {},
+      demoBox: {},
     });
     app.workflow
       .predict(workflowId, input)
@@ -125,6 +127,7 @@ class App extends Component {
           input: '',
           imageUrl: '',
           detectBox: {},
+          demoBox: {},
         });
       });
   };
