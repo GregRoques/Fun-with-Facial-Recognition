@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
 import Swal from 'sweetalert2';
-import np from 'jsnumpy';
 import ImageSearchForm from './Components/ImageSearchForm/ImageSearchForm';
 import FaceDetect from './Components/FaceDetect/FaceDetect';
 import { cKey, workflowId } from './keys/clarifaiKey'; // Clarifai key, name of clarifai workflow
@@ -44,13 +43,16 @@ class App extends Component {
   };
 
   faceDetect = (B) => {
-    //console.log(B);
-    let A = gregFaceArray;
-    const number_of_equal_elements = np.sum(A == B);
-    const total_elements = b.length;
-    const percentage = number_of_equal_elements / total_elements;
-    const isTrue = percentage > 0.95 ? true : false;
-    return isTrue;
+    const A = gregFaceArray;
+    const arrayTotal = gregFaceArray.length;
+    let count = 0;
+    for (let i = 0; i < arrayTotal; i++) {
+      if (Number.parseFloat(A[i]).toFixed(2) * 100 - B[i].toFixed(2) * 100 < 5) {
+        count++;
+      }
+    }
+    const percentage = Math.round((count / arrayTotal) * 100);
+    return percentage;
   };
 
   formatStats = (results) => {
@@ -60,19 +62,20 @@ class App extends Component {
       const clarifaiFaces = [result];
       box[i] = {
         bounding_box: this.calculateFaceLocations(clarifaiFaces),
+        demographics: {},
       };
       const concepts = result.data.concepts;
       //console.log(concepts);
       concepts.map((concept) => {
-        if (box[i][concept.vocab_id]) {
-          if (concept.value > box[i][concept.vocab_id].value) {
-            box[i][concept.vocab_id] = {
+        if (box[i].demographics[concept.vocab_id]) {
+          if (concept.value > box[i].demographics[concept.vocab_id].value) {
+            box[i].demographics[concept.vocab_id] = {
               name: concept.name,
               value: concept.value,
             };
           }
         } else {
-          box[i][concept.vocab_id] = {
+          box[i].demographics[concept.vocab_id] = {
             name: concept.name,
             value: concept.value,
           };
@@ -127,12 +130,11 @@ class App extends Component {
   };
 
   render() {
-    const { detectBox, imageUrl } = this.state;
-    //console.log(box); // working!!!
+    const { detectBox, demoBox, imageUrl } = this.state;
     return (
       <div className="App">
         <ImageSearchForm onInputChange={this.onInputChange} onSubmit={this.onSubmit} />
-        <FaceDetect box={detectBox} imageUrl={imageUrl} />
+        <FaceDetect box={detectBox} profile={demoBox} imageUrl={imageUrl} />
       </div>
     );
   }
