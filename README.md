@@ -39,7 +39,15 @@ In the "src" folder, I use my ".gitignore" file to hide a folder called "keys", 
 - **clarifaiKey.js:** exports your Clarifia API key (**const cKey**) and custom Clarifai workflow ID (**const workflowId**).
 - **faceArray.js:** exports a variable containing the 512-count array coordinates for a specific face ( or faces) you will try to detect when you submit an image url.
 
-# Logic
+# Clarifai Logic
+
+## First, make a Clarifai workflow
+
+Clarifai's recognition model is frighteningly deep, and is able to recognize scenarios in addition to individuals including more than 1,000 different types of food as well as 500+ items and settings specific to wedding photos. For this project, I want our API call to return both a 512-point vector map (a 512-character array of numbers), as well as any demographic data it can estimate on the individuals in our photo.
+
+After creating your free test account, create an application (or click into the system-generated 'my-first-application' as I did). Next, under 'App Workflows', click on 'Create New Workflow'. Give your workflow a name under 'Workflow ID', and select the 'Face (detect-embed)' and 'Demographics (detect-concept)' models. Make a copy of your workflow ID, as you will need to reference it when calling your api with in your code.
+
+![Create a workflow](/readMe/3.JPG)
 
 ## Face Calculation in App.js
 
@@ -68,9 +76,30 @@ The calculateFaceLocation function recieves the response we get from the API whe
 - **rightCol:** This subtracts the width from (clarifaiFace.right_col width) to know where the right_Col should be.
 - **bottomRow:** This subtract the height from (clarifaiFace.right_col height) to know where the bottom_Row should be.
 
+## Facial Recognition in App.js
+
+For each face the Clarifai API recognizes, I wanted it to see if I was in any of the photos. The Face (detect-embed) model returns a 512-character array mapping out an individuals face; having previously saved this array taken from my LinkedIn profile pic, (save in sr > keys > faceArray.js (export gregFaceArray), I use the below function to see if the two faces are similar. There are variations in a person's face ranging from picture to picture, so I did not want to do an exact compare of each character as this would return false — this function calculates an approximation and only returns a 'true' value if the chance the person is me is at least 90%.
+
+There are no doubt more sophisticated mapping packages out there (such as [numjs](https://github.com/nicolaspanel/numjs)), but I wanted to keep the focus of this project on the facial recognition APIs, so I opted for this a basic solution for illustration purposes here. Actually, having tested this on nearly three-dozen photos from different social media pages, it recognizes me everytime and never mistakes someone else for me.
+
+```
+  faceDetect = (B) => {
+    const A = gregFaceArray;
+    const arrayTotal = gregFaceArray.length;
+    let count = 0;
+    for (let i = 0; i < arrayTotal; i++) {
+      if (Number.parseFloat(A[i]).toFixed(2) * 100 - B[i].toFixed(2) * 100 < 5) {
+        count++;
+      }
+    }
+    const percentage = Math.round((count / arrayTotal) * 100);
+    return percentage;
+  };
+```
+
 # Images
 
-You can see the detection at work below.
+You can see the detection at work below, or [click here to watch a video demo](https://youtu.be/9ZtCiyr6Pb8).
 
 ![Squad at Jazz Fest](/readMe/1.JPG)
 
