@@ -27,7 +27,7 @@ class App extends Component {
     const height = Number(image.height);
 
     let box = {}; // holding our faces
-    console.log(clarifaiFaces);
+    // console.log(clarifaiFaces);
     clarifaiFaces.map((face, i) => {
       //map through faces
       const faceInfo = face.region_info.bounding_box;

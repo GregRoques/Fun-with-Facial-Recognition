@@ -52,6 +52,10 @@ After creating your free test account, create an application (or click into the 
 ## Face Calculation in App.js
 
 ```
+const image = document.getElementById('inputimage');
+const width = Number(image.width);
+const height = Number(image.height);
+
 clarifaiFaces.map((face, i) => {
     const faceInfo = face.region_info.bounding_box;
     box[i] = {
