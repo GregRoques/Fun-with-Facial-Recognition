@@ -30,7 +30,6 @@ See .prettierrc and .eslintrc.json files for more specifics
 ## APIs
 
 - Test 1: https://www.clarifai.com/
-- Test 2: **face-api.js:** https://github.com/justadudewhohacks/face-api.js
 
 ## Omitted Files/Folders Needed
 
@@ -39,7 +38,7 @@ In the "src" folder, I use my ".gitignore" file to hide a folder called "keys", 
 - **clarifaiKey.js:** exports your Clarifia API key (**const cKey**) and custom Clarifai workflow ID (**const workflowId**).
 - **faceArray.js:** exports a variable containing the 512-count array coordinates for a specific face ( or faces) you will try to detect when you submit an image url.
 
-# Clarifai Logic
+# Logic
 
 ## First, make a Clarifai workflow
 
@@ -103,7 +102,7 @@ There are no doubt more sophisticated mapping packages out there (such as [numjs
 
 # Images
 
-You can see the detection at work below, or [click here to watch a video demo](https://youtu.be/9ZtCiyr6Pb8).
+You can see the detection at work below, or [click here to watch a video demo](https://www.youtube.com/watch?v=NqeQZmqkXho&list=PLM2GdNHvfSCHPHRWbFlOst-EK8K4wkv5f&index=6).
 
 ![Squad at Jazz Fest](/readMe/1.JPG)
 

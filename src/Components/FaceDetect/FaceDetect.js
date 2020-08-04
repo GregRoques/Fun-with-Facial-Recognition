@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './FaceDetect.css';
 
 const FaceDetect = ({ imageUrl, box, profile }) => {
@@ -10,7 +10,7 @@ const FaceDetect = ({ imageUrl, box, profile }) => {
     <div>
       <div className="center ma">
         <div className="absolute mt2">
-          <img id="inputimage" alt="" src={imageUrl} width="500px" height="auto" />
+          <img id="inputimage" alt="" src={imageUrl} width="500px" height="auto" />{' '}
           {ArrayTwo
             ? ArrayTwo.map((boxes, i) => {
                 const bBoxes = boxes.bounding_box[0];
@@ -34,7 +34,7 @@ const FaceDetect = ({ imageUrl, box, profile }) => {
                   ></div>
                 );
               })
-            : null}
+            : null}{' '}
           {array
             ? array.map((boxes, i) => {
                 return (
@@ -57,9 +57,9 @@ const FaceDetect = ({ imageUrl, box, profile }) => {
                   ></div>
                 );
               })
-            : null}
-        </div>
-      </div>
+            : null}{' '}
+        </div>{' '}
+      </div>{' '}
     </div>
   );
 };
